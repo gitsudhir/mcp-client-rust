@@ -1,0 +1,39 @@
+[package]
+name = "mcp-client-rust"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tokio = { version = "1.35", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+reqwest = { version = "0.11", features = ["json"] }
+thiserror = "1.0"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+uuid = { version = "1.6", features = ["v4", "serde"] }
+async-trait = "0.1"
+futures = "0.3"
+anyhow = "1.0"
+chrono = "0.4"
+regex = "1.10"
+url = "2.5"
+
+[dev-dependencies]
+tokio-test = "0.4"
+
+[[example]]
+name = "basic_llm_integration"
+path = "examples/basic_llm_integration.rs"
+
+[[example]]
+name = "complete_llm_app"
+path = "examples/complete_llm_app.rs"
+
+[[example]]
+name = "multi_server"
+path = "examples/multi_server.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
