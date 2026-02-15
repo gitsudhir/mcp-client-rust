@@ -1,17 +1,19 @@
 use mcp_client_rust::client::MCPClient;
 use mcp_client_rust::transport::StdioTransport;
+use mcp_client_rust::transport::Transport;
 use mcp_client_rust::types::ClientInfo;
 use serde_json::json;
+use std::sync::Arc;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("MCP Client - Multi-Server Example");
     
     // Server 1: Main server
-    let transport1 = Box::new(StdioTransport::new(
+    let transport1 = Arc::new(StdioTransport::new(
         "/Users/sudhirkumar/Desktop/sudhir/gitsudhir/mcp-server-rust/target/release/mcp-server-rust",
         &[]
-    )?);
+    )?) as Arc<dyn Transport>;
     
     let client_info1 = ClientInfo {
         name: "Server1Client".to_string(),

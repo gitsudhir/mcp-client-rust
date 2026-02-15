@@ -3,6 +3,7 @@ use crate::transport::Transport;
 use crate::types::*;
 use crate::errors::McpResult;
 use std::collections::HashMap;
+use std::sync::Arc;
 
 
 #[derive(Debug, Clone)]
@@ -28,7 +29,7 @@ impl MultiServerManager {
 
     pub async fn add_server(
         &mut self,
-        transport: Box<dyn Transport>,
+        transport: Arc<dyn Transport>,
         config: ServerConfig,
     ) -> McpResult<()> {
         let client_info = ClientInfo {
@@ -36,7 +37,7 @@ impl MultiServerManager {
             version: "1.0.0".to_string(),
         };
 
-        let mut client = MCPClient::new(transport.into(), client_info);
+        let mut client = MCPClient::new(transport, client_info);
         client.initialize().await?;
 
         self.server_configs.insert(config.id.clone(), config.clone());

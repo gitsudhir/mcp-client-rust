@@ -101,9 +101,16 @@ pub struct PromptsResult {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum MessageContent {
+    Text { text: String },
+    Blob { blob: String },
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PromptMessage {
     pub role: String,
-    pub content: String,
+    pub content: Vec<MessageContent>,
 }
 
 // JSON-RPC structures

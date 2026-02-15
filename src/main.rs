@@ -106,8 +106,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     ).await?;
     
     for message in prompt_result.messages {
-        println!("Prompt message: {}", message.content);
+        println!("Role: {}", message.role);
+        for content in message.content {
+            match content {
+                mcp_client_rust::types::MessageContent::Text { text } => {
+                    println!("Prompt message: {}", text);
+                }
+                mcp_client_rust::types::MessageContent::Blob { blob } => {
+                    println!("Binary prompt data: {} bytes", blob.len());
+                }
+            }
+        }
     }
+
 
     client.close().await?;
     println!("\n✓ Client completed successfully");

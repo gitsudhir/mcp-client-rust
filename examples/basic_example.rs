@@ -1,16 +1,18 @@
 use mcp_client_rust::client::MCPClient;
 use mcp_client_rust::transport::StdioTransport;
+use mcp_client_rust::transport::Transport;
 use mcp_client_rust::types::ClientInfo;
+use std::sync::Arc;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("MCP Client - Basic Example");
     
     // Create transport to connect to the server
-    let transport = Box::new(StdioTransport::new(
+    let transport = Arc::new(StdioTransport::new(
         "/Users/sudhirkumar/Desktop/sudhir/gitsudhir/mcp-server-rust/target/release/mcp-server-rust",
         &[]
-    )?);
+    )?) as Arc<dyn Transport>;
     
     let client_info = ClientInfo {
         name: "BasicClient".to_string(),
