@@ -3,8 +3,6 @@ use mcp_client_rust::transport::StdioTransport;
 use mcp_client_rust::transport::Transport;
 use mcp_client_rust::types::ClientInfo;
 use mcp_client_rust::types::ContentItem;
-use std::env;
-use url::Url;
 use std::sync::Arc;
 
 #[tokio::main]
@@ -28,18 +26,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // --- Read File Resource ---
     // 1. Get the absolute path to the file.
-    let current_dir = env::current_dir()?;
-    let file_path = current_dir.join("example_file.txt");
+    let file_uri = "file:///data/example_file.txt".to_string();
 
-    let file_uri = url::Url::from_file_path(&file_path)
-        .map_err(|_| "Could not create URL from file path")?
-        .to_string();
     println!("\nAttempting to read resource from: {}", file_uri);
 
     // 3. Call the read_resource method.
     let resource_content = client.read_resource(&file_uri).await?;
 
-    // 4. Print 
+    // 4. Print
     // The content is available in the `content` field of the returned struct.
     if !resource_content.contents.is_empty() {
         println!("\n✓ File content retrieved successfully:\n---");
